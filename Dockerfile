@@ -1,9 +1,7 @@
 #Author:PG - Demo/Training/Testing
 
 FROM centos:centos7
-MAINTAINER The CentOS Project <cloud-ops@centos.org>
-
-#VOLUME ["/var/lib/pgsql"]
+MAINTAINER Prashanth Goriparthi <prashanth@goriparthi.com>
 
 RUN yum -y update; yum clean all
 RUN yum -y install sudo epel-release; yum clean all
