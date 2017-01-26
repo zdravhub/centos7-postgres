@@ -75,13 +75,18 @@ esac
 
 # this parsing technique fails for PGDATA pathnames containing spaces,
 # but there's not much I can do about it given systemctl's output format...
-PGDATA=`systemctl show -p Environment "${SERVICE_NAME}.service" |
-                sed 's/^Environment=//' | tr ' ' '\n' |
-                sed -n 's/^PGDATA=//p' | tail -n 1`
-if [ x"$PGDATA" = x ]; then
-    echo "failed to find PGDATA setting in ${SERVICE_NAME}.service"
-    exit 1
-fi
+
+# LXC: Removing this as we dont have systemctl in container
+#
+#PGDATA=`systemctl show -p Environment "${SERVICE_NAME}.service" |
+#                sed 's/^Environment=//' | tr ' ' '\n' |
+#                sed -n 's/^PGDATA=//p' | tail -n 1`
+#if [ x"$PGDATA" = x ]; then
+#    echo "failed to find PGDATA setting in ${SERVICE_NAME}.service"
+#    exit 1
+#fi
+
+PGDATA="/var/lib/pgsql"
 
 # Find the unit file for new version.
 if [ -f "/etc/systemd/system/${SERVICE_NAME}.service" ]
@@ -118,7 +123,8 @@ script_result=0
 # code shared between initdb and upgrade actions
 perform_initdb(){
     if [ ! -e "$PGDATA" ]; then
-        mkdir "$PGDATA" || return 1
+        # Patched here to make dir tree without complaining
+        mkdir -p "$PGDATA" || return 1
         chown postgres:postgres "$PGDATA"
         chmod go-rwx "$PGDATA"
     fi
