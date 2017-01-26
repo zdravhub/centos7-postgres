@@ -1,7 +1,6 @@
-#Author:PG - Demo/Training/Testing
-
 FROM centos:centos7
-MAINTAINER Prashanth Goriparthi <prashanth@goriparthi.com>
+MAINTAINER Zdravko Zdravkov <zdravko@octoon.net>
+# Special thanks for Prashanth Goriparthi <prashanth@goriparthi.com>
 
 RUN yum -y update; yum clean all
 RUN yum -y install sudo epel-release; yum clean all
@@ -10,26 +9,26 @@ RUN yum -y install sudo epel-release; yum clean all
 RUN sed -i 's/.*requiretty$/#Defaults requiretty/' /etc/sudoers
 
 # Install pgdg repo for getting new postgres RPMs
-RUN rpm -ivh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+RUN rpm -ivh https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-3.noarch.rpm
 
-# Install Postgres Version 9.4
-RUN yum install postgresql94-server postgresql94 postgresql94-contrib postgresql94-plperl postgresql94-devel -y --nogpgcheck
+# Install Postgres Version 9.5
+RUN yum install postgresql95-server postgresql95 postgresql95-libs postgresql95-contrib postgresql95-plperl postgresql95-devel -y --nogpgcheck
 
 # Modified setup script to bypass systemctl variable read stuff
-ADD ./postgresql94-setup /usr/pgsql-9.4/bin/postgresql94-setup
+ADD ./postgresql95-setup /usr/pgsql-9.5/bin/postgresql95-setup
 
 # Update data folder perms
 RUN chown -R postgres.postgres /var/lib/pgsql
 
 #Modify perms on setup script
-RUN chmod +x /usr/pgsql-9.4/bin/postgresql94-setup
+RUN chmod +x /usr/pgsql-9.5/bin/postgresql95-setup
 
 #Initialize data for pg engine
-RUN sh /usr/pgsql-9.4/bin/postgresql94-setup initdb
+RUN sh /usr/pgsql-9.5/bin/postgresql95-setup initdb
 
 #Access from all over --- NEVER DO THIS SHIT IN POST DEV ENVs !!!!!!!!!!!!!!!!!!! <--- READ THIS 
-ADD ./postgresql.conf /var/lib/pgsql/9.4/data/postgresql.conf
-ADD ./pg_hba.conf /var/lib/pgsql/9.4/data/pg_hba.conf
+ADD ./postgresql.conf /var/lib/pgsql/9.5/data/postgresql.conf
+ADD ./pg_hba.conf /var/lib/pgsql/9.5/data/pg_hba.conf
 
 #Add start script for postgres
 ADD ./start_postgres.sh /start_postgres.sh
