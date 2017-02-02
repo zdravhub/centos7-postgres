@@ -4,8 +4,8 @@
 /usr/pgsql-9.5/bin/postgresql95-setup initdb
 
 #Access from all over --- NEVER DO THIS SHIT IN POST DEV ENVs !!!!!!!!!!!!!!!!!!! <--- READ THIS
-cp /postgresql.conf /var/lib/pgsql/9.5/data/postgresql.conf
-cp /pg_hba.conf /var/lib/pgsql/9.5/data/pg_hba.conf
+mv /postgresql.conf /var/lib/pgsql/9.5/data/postgresql.conf
+mv /pg_hba.conf /var/lib/pgsql/9.5/data/pg_hba.conf
 
 # Update data folder perms
 chown -R postgres.postgres /var/lib/pgsql
