@@ -17,18 +17,12 @@ RUN yum install postgresql95-server postgresql95 postgresql95-libs postgresql95-
 # Modified setup script to bypass systemctl variable read stuff
 ADD ./postgresql95-setup /usr/pgsql-9.5/bin/postgresql95-setup
 
-# Update data folder perms
-RUN chown -R postgres.postgres /var/lib/pgsql
-
 #Modify perms on setup script
 RUN chmod +x /usr/pgsql-9.5/bin/postgresql95-setup
 
-#Initialize data for pg engine
-RUN sh /usr/pgsql-9.5/bin/postgresql95-setup initdb
-
 #Access from all over --- NEVER DO THIS SHIT IN POST DEV ENVs !!!!!!!!!!!!!!!!!!! <--- READ THIS 
-ADD ./postgresql.conf /var/lib/pgsql/9.5/data/postgresql.conf
-ADD ./pg_hba.conf /var/lib/pgsql/9.5/data/pg_hba.conf
+ADD ./postgresql.conf /postgresql.conf
+ADD ./pg_hba.conf /pg_hba.conf
 
 #Add start script for postgres
 ADD ./start_postgres.sh /start_postgres.sh
