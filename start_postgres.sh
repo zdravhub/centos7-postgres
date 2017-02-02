@@ -16,4 +16,4 @@
 # Update default postgres user password
 # exec su postgres -c "psql -c \"alter user postgres password 'password'\";"
 
-echo "Container is UP"
+exec /bin/bash
