@@ -32,6 +32,4 @@ RUN chmod +x /start_postgres.sh
 EXPOSE 5432
 
 #Run pgEngine
-# CMD ["/start_postgres.sh"]
-
-CMD ["/bin/bash"]
+CMD ["/start_postgres.sh"]
