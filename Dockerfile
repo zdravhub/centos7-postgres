@@ -33,8 +33,6 @@ ADD ./pg_hba.conf /var/lib/pgsql/9.5/data/pg_hba.conf
 #Add start script for postgres
 ADD ./start_postgres.sh /start_postgres.sh
 
-VOLUME ["/var/lib/pgsql/9.5/data"]
-
 RUN chmod +x /start_postgres.sh
 
 EXPOSE 5432
