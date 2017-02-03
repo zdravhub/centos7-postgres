@@ -31,5 +31,7 @@ RUN chmod +x /start_postgres.sh
 
 EXPOSE 5432
 
+VOLUME ["/var/lib/pgsql/9.5/data"]
+
 #Run pgEngine
 CMD ["/start_postgres.sh"]
